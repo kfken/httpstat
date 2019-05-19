@@ -72,6 +72,7 @@ var (
 const maxRedirects = 10
 
 func init() {
+	os.Setenv("GODEBUG", os.Getenv("GODEBUG")+",tls13=1")
 	flag.StringVar(&httpMethod, "X", "GET", "HTTP method to use")
 	flag.StringVar(&postBody, "d", "", "the body of a POST or PUT request; from file use @filename")
 	flag.BoolVar(&followRedirects, "L", false, "follow 30x redirects")
@@ -316,6 +317,14 @@ func visit(url *url.URL) {
 	sort.Sort(headers(names))
 	for _, k := range names {
 		printf("%s %s\n", grayscale(14)(k+":"), color.CyanString(strings.Join(resp.Header[k], ",")))
+	}
+
+	if resp.TLS != nil {
+		conn := resp.TLS
+		printf("%s %s\n", grayscale(14)("TLS version:"), color.GreenString("0x%x", conn.Version))
+		printf("%s %s\n", grayscale(14)("CipherSuite:"), color.GreenString("0x%x", conn.CipherSuite))
+		printf("%s %s\n", grayscale(14)("NegotiatedProtocol:"), color.GreenString(conn.NegotiatedProtocol))
+		printf("%s %s\n", grayscale(14)("ServerName:"), color.GreenString("%s", conn.ServerName))
 	}
 
 	if bodyMsg != "" {
