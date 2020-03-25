@@ -322,7 +322,7 @@ func visit(url *url.URL) {
 	if resp.TLS != nil {
 		conn := resp.TLS
 		printf("%s %s\n", grayscale(14)("TLS version:"), color.GreenString("0x%x", conn.Version))
-		printf("%s %s\n", grayscale(14)("CipherSuite:"), color.GreenString("0x%x", conn.CipherSuite))
+		printf("%s %s\n", grayscale(14)("CipherSuite:"), color.GreenString("0x%x  %s", conn.CipherSuite, tls.CipherSuiteName(conn.CipherSuite)))
 		printf("%s %s\n", grayscale(14)("NegotiatedProtocol:"), color.GreenString(conn.NegotiatedProtocol))
 		printf("%s %s\n", grayscale(14)("ServerName:"), color.GreenString("%s", conn.ServerName))
 	}

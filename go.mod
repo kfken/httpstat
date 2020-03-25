@@ -8,3 +8,5 @@ require (
 	golang.org/x/sys v0.0.0-20180920110915-d641721ec2de
 	golang.org/x/text v0.3.0
 )
+
+go 1.14
